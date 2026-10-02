@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
- <meta name="google-site-verification" content="DFGwpg_lhathTgBJN0X09QzPlE_SJFYnwhPq8Cibb5Q" />
+  <meta name="google-site-verification" content="DFGwpg_lhathTgBJN0X09QzPlE_SJFYnwhPq8Cibb5Q" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Rocket Port Pro — the Rocket League hub for players, tournaments, communities, servers, news, and gaming resources.">
   <title>Rocket Port Pro | Rocket League Gaming Hub & Directory</title>
@@ -135,6 +135,26 @@
           </div>
         </section>
       </div>
+
+      <section class="panel player-directory" id="player-directory">
+        <div class="section-head"><h2>🔎 Player Directory</h2><span class="pill">Public profile lookup</span></div>
+        <p class="data-note">Search a player by platform and open their live public Rocket League profile. Rocket Port Pro does not manufacture or cache rank/MMR values.</p>
+        <form class="tracker-lookup" id="playerDirectoryForm">
+          <select id="directoryPlatform" aria-label="Player platform">
+            <option value="epic">Epic</option>
+            <option value="steam">Steam</option>
+            <option value="xbox">Xbox</option>
+            <option value="psn">PlayStation</option>
+          </select>
+          <input id="directoryUsername" type="text" placeholder="Search player name…" autocomplete="off" required>
+          <button class="primary-btn" type="submit">Find Player ↗</button>
+        </form>
+        <div class="directory-search-help">
+          <div><strong>What you get</strong><span>Profile, seasonal stats, ranks/MMR and recent-match data when the public profile provides them.</span></div>
+          <div><strong>Source</strong><span>Rocket League Tracker by Tracker Network.</span></div>
+          <div><strong>Privacy</strong><span>Searches open the public profile directly; Rocket Port Pro does not ask for your Rocket League password.</span></div>
+        </div>
+      </section>
 
       <div class="two-col" id="communities">
         <section class="panel community-panel">
