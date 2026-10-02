@@ -25,7 +25,7 @@ function renderResults(query) {
     .slice(0, 6);
 
   const playerOption = `
-    <a class="result" href="players.html">
+    <a class="result" href="players.html?search=${encodeURIComponent(query.trim())}">
       <b>🎮 Search Player Directory</b>
       <span style="color:#36b6ff">Player</span>
       <br>
