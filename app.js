@@ -1,9 +1,9 @@
 const data = [
-  ["RL Tracker Profiles","Player Search","Open an official Tracker profile","#players"],
-  ["RLCS","Tournament","Official Rocket League esports","#tournaments"],
-  ["Community Servers","Community","Find Rocket League communities","#communities"],
-  ["RL Coaching","Directory","Coaches and training resources","#directory"],
-  ["Creators Hub","Directory","Streamers and creators","#directory"],
+  ["RL Tracker Profiles", "Player Search", "Open a public Rocket League player profile", "players.html"],
+  ["RLCS", "Tournament", "Official Rocket League esports", "#tournaments"],
+  ["Community Servers", "Community", "Find Rocket League communities", "#communities"],
+  ["RL Coaching", "Directory", "Coaches and training resources", "#directory"],
+  ["Creators Hub", "Directory", "Streamers and creators", "#directory"],
 ];
 
 const form = document.querySelector("#searchForm");
@@ -24,20 +24,29 @@ function renderResults(query) {
     .filter(item => item.join(" ").toLowerCase().includes(q))
     .slice(0, 6);
 
-  results.innerHTML = matches.length
-    ? matches.map(item => `
-        <a class="result" href="${item[3]}">
-          <b>${item[0]}</b>
-          <span style="color:#36b6ff">${item[1]}</span>
-          <br>
-          <small style="color:#8fa6c1">${item[2]}</small>
-        </a>
-      `).join("")
-    : `
-      <div class="result">
-        No directory match yet. Try “player”, “tournament”, or “community”.
-      </div>
-    `;
+  const playerOption = `
+    <a class="result" href="players.html">
+      <b>🎮 Search Player Directory</b>
+      <span style="color:#36b6ff">Player</span>
+      <br>
+      <small style="color:#8fa6c1">
+        Search Rocket League players by platform and open their public profile.
+      </small>
+    </a>
+  `;
+
+  results.innerHTML =
+    playerOption +
+    (matches.length
+      ? matches.map(item => `
+          <a class="result" href="${item[3]}">
+            <b>${item[0]}</b>
+            <span style="color:#36b6ff">${item[1]}</span>
+            <br>
+            <small style="color:#8fa6c1">${item[2]}</small>
+          </a>
+        `).join("")
+      : "");
 
   results.hidden = false;
 }
@@ -49,17 +58,22 @@ if (input && results && form) {
 
   form.addEventListener("submit", event => {
     event.preventDefault();
+
+    if (input.value.trim()) {
+      window.location.href =
+        "players.html?search=" +
+        encodeURIComponent(input.value.trim());
+      return;
+    }
+
     renderResults(input.value);
-    results.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
-    });
   });
 }
 
 if (focusSearch && input) {
   focusSearch.addEventListener("click", () => {
     input.focus();
+
     window.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -73,7 +87,9 @@ if (menuToggle) {
   menuToggle.addEventListener("click", () => {
     const nav = document.querySelector("nav");
 
-    nav.style.display = nav.style.display === "flex" ? "" : "flex";
+    nav.style.display =
+      nav.style.display === "flex" ? "" : "flex";
+
     nav.style.position = "absolute";
     nav.style.top = "69px";
     nav.style.left = "0";
@@ -98,8 +114,11 @@ function showToast(message) {
 }
 
 function openTrackerProfile() {
-  const platformElement = document.querySelector("#trackerPlatform");
-  const usernameElement = document.querySelector("#trackerUsername");
+  const platformElement =
+    document.querySelector("#trackerPlatform");
+
+  const usernameElement =
+    document.querySelector("#trackerUsername");
 
   if (!platformElement || !usernameElement) return;
 
@@ -118,7 +137,8 @@ function openTrackerProfile() {
     return;
   }
 
-  const encodedUsername = encodeURIComponent(username);
+  const encodedUsername =
+    encodeURIComponent(username);
 
   const trackerUrl =
     `https://rocketleague.tracker.network/rocket-league/profile/${platform}/${encodedUsername}/overview`;
@@ -130,7 +150,8 @@ function openTrackerProfile() {
   );
 }
 
-const trackerLookup = document.querySelector("#trackerLookup");
+const trackerLookup =
+  document.querySelector("#trackerLookup");
 
 if (trackerLookup) {
   trackerLookup.addEventListener("submit", event => {
