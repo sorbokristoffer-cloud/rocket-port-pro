@@ -13,47 +13,138 @@ const focusSearch = document.querySelector("#focusSearch");
 
 function renderResults(query) {
   const q = query.trim().toLowerCase();
-  if (!q) { results.hidden = true; results.innerHTML = ""; return; }
-  const matches = data.filter(x => x.join(" ").toLowerCase().includes(q)).slice(0, 6);
+
+  if (!q) {
+    results.hidden = true;
+    results.innerHTML = "";
+    return;
+  }
+
+  const matches = data
+    .filter(item => item.join(" ").toLowerCase().includes(q))
+    .slice(0, 6);
+
   results.innerHTML = matches.length
-    ? matches.map(x => `<a class="result" href="${x[3]}"><b>${x[0]}</b> <span style="color:#36b6ff">${x[1]}</span><br><small style="color:#8fa6c1">${x[2]}</small></a>`).join("")
-    : `<div class="result">No directory match yet. Try “player”, “tournament”, or “community”.</div>`;
+    ? matches.map(item => `
+        <a class="result" href="${item[3]}">
+          <b>${item[0]}</b>
+          <span style="color:#36b6ff">${item[1]}</span>
+          <br>
+          <small style="color:#8fa6c1">${item[2]}</small>
+        </a>
+      `).join("")
+    : `
+      <div class="result">
+        No directory match yet. Try “player”, “tournament”, or “community”.
+      </div>
+    `;
+
   results.hidden = false;
 }
 
-input.addEventListener("input", () => renderResults(input.value));
-form.addEventListener("submit", e => { e.preventDefault(); renderResults(input.value); results.scrollIntoView({behavior:"smooth",block:"nearest"}); });
-focusSearch.addEventListener("click", () => { input.focus(); window.scrollTo({top:0,behavior:"smooth"}); });
+if (input && results && form) {
+  input.addEventListener("input", () => {
+    renderResults(input.value);
+  });
 
-document.querySelector(".menu-toggle").addEventListener("click", () => {
-  const nav = document.querySelector("nav");
-  nav.style.display = nav.style.display === "flex" ? "" : "flex";
-  nav.style.position = "absolute"; nav.style.top = "69px"; nav.style.left = "0"; nav.style.right = "0";
-  nav.style.padding = "15px 5%"; nav.style.background = "#020914"; nav.style.flexDirection = "column";
-});
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    renderResults(input.value);
+    results.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
+    });
+  });
+}
+
+if (focusSearch && input) {
+  focusSearch.addEventListener("click", () => {
+    input.focus();
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+}
+
+const menuToggle = document.querySelector(".menu-toggle");
+
+if (menuToggle) {
+  menuToggle.addEventListener("click", () => {
+    const nav = document.querySelector("nav");
+
+    nav.style.display = nav.style.display === "flex" ? "" : "flex";
+    nav.style.position = "absolute";
+    nav.style.top = "69px";
+    nav.style.left = "0";
+    nav.style.right = "0";
+    nav.style.padding = "15px 5%";
+    nav.style.background = "#020914";
+    nav.style.flexDirection = "column";
+  });
+}
 
 function showToast(message) {
   const toast = document.querySelector("#toast");
-  toast.textContent = message; toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 2600);
+
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2600);
 }
 
 function openTrackerProfile() {
-  const platform = document.querySelector("#trackerPlatform").value;
-  const username = document.querySelector("#trackerUsername").value.trim();
+  const platformElement = document.querySelector("#trackerPlatform");
+  const usernameElement = document.querySelector("#trackerUsername");
+
+  if (!platformElement || !usernameElement) return;
+
+  const platform = platformElement.value;
+  const username = usernameElement.value.trim();
+
   if (!username) {
     showToast("Enter a Rocket League username first.");
+    usernameElement.focus();
     return;
   }
-  const url = `https://rocketleague.tracker.network/rocket-league/profile/${platform}/${encodeURIComponent(username)}/overview`;
-  window.open(url, "_blank", "noopener,noreferrer");
+
+  if (username.length < 2) {
+    showToast("Please enter a valid username.");
+    usernameElement.focus();
+    return;
+  }
+
+  const encodedUsername = encodeURIComponent(username);
+
+  const trackerUrl =
+    `https://rocketleague.tracker.network/rocket-league/profile/${platform}/${encodedUsername}/overview`;
+
+  window.open(
+    trackerUrl,
+    "_blank",
+    "noopener,noreferrer"
+  );
 }
 
-document.querySelector("#trackerLookup")?.addEventListener("submit", e => {
-  e.preventDefault();
-  openTrackerProfile();
-});
+const trackerLookup = document.querySelector("#trackerLookup");
 
-document.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => {
-  document.querySelectorAll('nav a').forEach(x => x.classList.remove('active')); a.classList.add('active');
-}));
+if (trackerLookup) {
+  trackerLookup.addEventListener("submit", event => {
+    event.preventDefault();
+    openTrackerProfile();
+  });
+}
+
+document.querySelectorAll("nav a").forEach(link => {
+  link.addEventListener("click", () => {
+    document.querySelectorAll("nav a").forEach(item => {
+      item.classList.remove("active");
+    });
+
+    link.classList.add("active");
+  });
+});
