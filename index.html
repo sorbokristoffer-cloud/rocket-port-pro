@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Rocket Port Pro — the Rocket League hub for players, tournaments, communities, servers, news, and gaming resources.">
+  <title>Rocket Port Pro | Rocket League Gaming Hub & Directory</title>
+  <link rel="stylesheet" href="styles.css">
+
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="Rocket Port Pro">
+    <meta name="theme-color" content="#070b16">
+    <meta name="application-name" content="Rocket Port Pro">
+    <meta name="keywords" content="Rocket League, Rocket League stats, Rocket League players, Rocket League tournaments, Rocket League communities, Rocket League directory, Rocket League esports, Rocket League news">
+    <link rel="canonical" href="https://rocketportpro.com/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Rocket Port Pro">
+    <meta property="og:title" content="Rocket Port Pro | Rocket League Gaming Hub & Directory">
+    <meta property="og:description" content="Discover Rocket League players, communities, tournaments, creators, esports resources, and gaming services in one hub.">
+    <meta property="og:url" content="https://rocketportpro.com/">
+    <meta property="og:image" content="https://rocketportpro.com/assets/rocket-port-hero.png">
+    <meta property="og:image:alt" content="Rocket Port Pro Rocket League gaming hub">
+
+    <!-- X / Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rocket Port Pro | Rocket League Gaming Hub & Directory">
+    <meta name="twitter:description" content="Your hub for Rocket League players, tournaments, communities, creators, esports, and gaming resources.">
+    <meta name="twitter:image" content="https://rocketportpro.com/assets/rocket-port-hero.png">
+
+    <!-- JSON-LD: WebSite + Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Rocket Port Pro",
+      "alternateName": "Rocket Port Pro Gaming Hub & Directory",
+      "url": "https://rocketportpro.com/",
+      "description": "Rocket League gaming hub and directory for players, tournaments, communities, creators, esports resources, and gaming services.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://rocketportpro.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Rocket Port Pro",
+      "url": "https://rocketportpro.com/",
+      "description": "Independent Rocket League gaming hub and directory."
+    }
+    </script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Rocket Port Pro home">
+      <span class="brand-mark">🚀</span>
+      <span><strong>ROCKET PORT <em>PRO</em></strong><small>ROCKET LEAGUE HUB & DIRECTORY</small></span>
+    </a>
+    <button class="menu-toggle" aria-label="Open menu">☰</button>
+    <nav>
+      <a class="active" href="#home">Home</a>
+      <a href="#players">Players</a>
+      <a href="#tournaments">Tournaments</a>
+      <a href="#communities">Communities</a>
+      <a href="#news">News</a>
+      <a href="#directory">Directory</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="focusSearch" aria-label="Search">⌕</button>
+      <button class="ghost-btn" onclick="showToast('Account features are ready to connect to your auth provider.')">Log In</button>
+      <button class="primary-btn" onclick="showToast('Signup flow ready — connect your preferred auth provider.')">Sign Up</button>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="eyebrow">ROCKET PORT PRO</p>
+        <h1>Your Rocket League<br><span>Hub & Directory</span></h1>
+        <p class="hero-copy">Find players, tournaments, communities, servers, creators, and more — all in one place.</p>
+        <form class="search" id="searchForm">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="Search players, tournaments, communities, or more…" autocomplete="off">
+          <button class="primary-btn" type="submit">Search</button>
+        </form>
+        <div class="search-results" id="searchResults" hidden></div>
+      </div>
+    </section>
+
+    <section class="quick-links">
+      <a href="#players"><b>♟</b><span><strong>Players</strong><small>Find your squad</small></span></a>
+      <a href="#servers"><b>▤</b><span><strong>Servers</strong><small>Join communities</small></span></a>
+      <a href="#tournaments"><b>🏆</b><span><strong>Tournaments</strong><small>Compete & watch</small></span></a>
+      <a href="#communities"><b>♟</b><span><strong>Communities</strong><small>Discord & forums</small></span></a>
+      <a href="#news"><b>▤</b><span><strong>News</strong><small>Stay updated</small></span></a>
+      <a href="#directory"><b>▥</b><span><strong>Directory</strong><small>List your brand</small></span></a>
+    </section>
+
+    <section class="container">
+      <div class="feature-grid">
+        <a class="feature-card" href="#players"><div class="card-image players-img"></div><div><h3>Players</h3><p>Find teammates, rivals, and players in your region.</p><span>Explore →</span></div></a>
+        <a class="feature-card" href="#servers"><div class="card-image servers-img"></div><div><h3>Servers</h3><p>Discover Rocket League servers and communities.</p><span>Explore →</span></div></a>
+        <a class="feature-card" href="#tournaments"><div class="card-image tourney-img"></div><div><h3>Tournaments</h3><p>Find upcoming tournaments, cups, and leagues.</p><span>Explore →</span></div></a>
+        <a class="feature-card" href="#communities"><div class="card-image clans-img"></div><div><h3>Clans & Communities</h3><p>Join clans, guilds, and like-minded players.</p><span>Explore →</span></div></a>
+        <a class="feature-card" href="#directory"><div class="card-image directory-img"></div><div><h3>Directory</h3><p>Browse creators, coaches, services, and more.</p><span>Explore →</span></div></a>
+      </div>
+
+      <div class="two-col" id="tournaments">
+        <section class="panel">
+          <div class="section-head"><h2>🏆 Featured Tournaments</h2><a href="#">View All →</a></div>
+          <div class="tournament-feature">
+            <div class="tourney-art"></div>
+            <div class="tourney-info"><div><h3>RLCS 2026 — Major</h3><span class="pill">Featured</span></div><p>Competitive Rocket League event • Global</p><strong>$300,000 <small>Prize Pool</small></strong><button class="primary-btn" onclick="showToast('Tournament details opened.')">View Tournament →</button></div>
+          </div>
+          <div class="tourney-list">
+            <article><b>Salt Mine VI</b><span>1v1 • Europe</span><i>Upcoming</i></article>
+            <article><b>The Forge Cup</b><span>2v2 • North America</span><i>Upcoming</i></article>
+            <article><b>Gridiron Gauntlet</b><span>3v3 • Global</span><i>Upcoming</i></article>
+          </div>
+        </section>
+
+        <section class="panel" id="news">
+          <div class="section-head"><h2>📰 Latest News</h2><a href="#">View All →</a></div>
+          <div class="news-list">
+            <article><div class="thumb n1"></div><div><b>RLCS season updates and competitive news</b><small>Today</small></div></article>
+            <article><div class="thumb n2"></div><div><b>New Rocket League update arrives</b><small>Yesterday</small></div></article>
+            <article><div class="thumb n3"></div><div><b>New season rewards and decals</b><small>3 days ago</small></div></article>
+            <article><div class="thumb n4"></div><div><b>Community spotlight: creators to watch</b><small>5 days ago</small></div></article>
+          </div>
+        </section>
+      </div>
+
+      <div class="two-col" id="communities">
+        <section class="panel community-panel">
+          <div class="section-head"><h2>👥 Community Spotlight</h2><a href="#">View All</a></div>
+          <div class="community-hero"></div>
+          <div class="community-body"><div class="discord-icon">◈</div><div><h3>Rogue Rocket League</h3><p>12,483 Members • Competitive • NA/EU</p><span>A growing community focused on competitive play, ranked grind, and good vibes.</span></div></div>
+          <button class="primary-btn" onclick="showToast('Community link opened.')">Join Community</button>
+        </section>
+
+        <section class="panel" id="players">
+          <div class="section-head"><h2>🎮 Rocket League Player Lookup</h2><a href="https://rocketleague.tracker.network/rocket-league" target="_blank" rel="noopener">Tracker Network ↗</a></div>
+          <p class="data-note">Look up a player on Rocket League Tracker without copying or scraping their data. Rocket Port Pro does not invent ranks or MMR.</p>
+          <form class="tracker-lookup" id="trackerLookup">
+            <select id="trackerPlatform" aria-label="Platform">
+              <option value="epic">Epic</option>
+              <option value="steam">Steam</option>
+              <option value="xbox">Xbox</option>
+              <option value="psn">PlayStation</option>
+            </select>
+            <input id="trackerUsername" type="text" placeholder="Epic ID / platform username" autocomplete="off">
+            <button class="primary-btn" type="submit">View RL Stats ↗</button>
+          </form>
+          <div class="data-source">
+            <strong>Data source:</strong> Rocket League Tracker by Tracker Network. Profiles include seasonal and lifetime statistics, playlist ranks/MMR, rating progression, and recent-match information.
+          </div>
+        </section>
+      </div>
+
+      <section class="panel" id="directory">
+        <div class="section-head"><h2>📚 Featured Directory</h2><a href="#">View All →</a></div>
+        <div class="directory-grid">
+          <article class="directory-item"><div class="dir-icon">⚡</div><div><b>RL Coaching</b><span>Coaching</span><p>Professional coaching for all ranks.</p><small>★★★★★ (24)</small></div></article>
+          <article class="directory-item"><div class="dir-icon">S</div><div><b>Servers & Communities</b><span>Community</span><p>Find Rocket League Discords, teams, and communities.</p><small>Community listings</small></div></article>
+          <article class="directory-item"><div class="dir-icon">R</div><div><b>Rocket League Resources</b><span>Tools</span><p>Tools and resources for improving your game.</p><small>Verified listings</small></div></article>
+          <article class="directory-item"><div class="dir-icon">T</div><div><b>Creators Hub</b><span>Creators</span><p>Find Rocket League streamers and creators.</p><small>Creator listings</small></div></article>
+        </div>
+      </section>
+
+      <section class="cta" id="servers">
+        <div><p class="eyebrow">BUILD THE COMMUNITY</p><h2>Have a Rocket League project?</h2><p>Add your server, team, tournament, service, or creator profile to Rocket Port Pro.</p></div>
+        <button class="primary-btn" onclick="showToast('Listing submission flow ready to connect.')">Submit a Listing →</button>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="brand"><span class="brand-mark">🚀</span><span><strong>ROCKET PORT <em>PRO</em></strong><small>ROCKET LEAGUE HUB & DIRECTORY</small></span></div>
+      <div class="footer-links"><a href="#home">Home</a><a href="#players">Players</a><a href="#tournaments">Tournaments</a><a href="#communities">Community</a><a href="#news">News</a><a href="#directory">Directory</a></div>
+      <div class="social">Discord · X · YouTube · Twitch</div>
+    </div>
+    <p class="legal">© 2026 Rocket Port Pro. Independent community project. Rocket League and related marks belong to their respective owners.</p>
+  </footer>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
