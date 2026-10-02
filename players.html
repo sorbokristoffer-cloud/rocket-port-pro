@@ -174,43 +174,50 @@
   </footer>
 
   <script>
-    const playerForm = document.querySelector("#playerSearchForm");
-    const platform = document.querySelector("#playerPlatform");
-    const username = document.querySelector("#playerUsername");
-    const result = document.querySelector("#playerSearchResult");
+   const playerForm = document.querySelector("#playerSearchForm");
+const platform = document.querySelector("#playerPlatform");
+const username = document.querySelector("#playerUsername");
+const result = document.querySelector("#playerSearchResult");
 
-    if (playerForm) {
-      playerForm.addEventListener("submit", function(event) {
-        event.preventDefault();
+const params = new URLSearchParams(window.location.search);
+const searchPlayer = params.get("search");
 
-        const name = username.value.trim();
+if (searchPlayer && username) {
+  username.value = searchPlayer;
+}
 
-        if (!name) {
-          username.focus();
-          return;
-        }
+if (playerForm) {
+  playerForm.addEventListener("submit", function(event) {
+    event.preventDefault();
 
-        const encodedName = encodeURIComponent(name);
+    const name = username.value.trim();
 
-        const trackerUrl =
-          "https://rocketleague.tracker.network/rocket-league/profile/" +
-          platform.value +
-          "/" +
-          encodedName +
-          "/overview";
-
-        result.hidden = false;
-
-        result.innerHTML =
-          "<strong>Player found:</strong> " +
-          name +
-          '<br><br><a class="primary-btn" href="' +
-          trackerUrl +
-          '" target="_blank" rel="noopener noreferrer">' +
-          "Open Public Tracker Profile ↗" +
-          "</a>";
-      });
+    if (!name) {
+      username.focus();
+      return;
     }
+
+    const encodedName = encodeURIComponent(name);
+
+    const trackerUrl =
+      "https://rocketleague.tracker.network/rocket-league/profile/" +
+      platform.value +
+      "/" +
+      encodedName +
+      "/overview";
+
+    result.hidden = false;
+
+    result.innerHTML =
+      "<strong>Player:</strong> " +
+      name +
+      '<br><br><a class="primary-btn" href="' +
+      trackerUrl +
+      '" target="_blank" rel="noopener noreferrer">' +
+      "Open Public Tracker Profile ↗" +
+      "</a>";
+  });
+}
   </script>
 
 </body>
