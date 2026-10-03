@@ -744,6 +744,102 @@ document
   });
 
 loadLobbies();
+  const authEmail = document.querySelector("#authEmail");
+const authPassword = document.querySelector("#authPassword");
+const signInBtn = document.querySelector("#signInBtn");
+const signUpBtn = document.querySelector("#signUpBtn");
+const signOutBtn = document.querySelector("#signOutBtn");
+const authStatus = document.querySelector("#authStatus");
+
+async function updateAuthUI() {
+  const { data } = await supabaseClient.auth.getSession();
+  const session = data.session;
+
+  if (session) {
+    authStatus.textContent = "Signed in";
+    signInBtn.style.display = "none";
+    signUpBtn.style.display = "none";
+    signOutBtn.style.display = "inline-block";
+    authEmail.style.display = "none";
+    authPassword.style.display = "none";
+  } else {
+    authStatus.textContent = "Not signed in";
+    signInBtn.style.display = "inline-block";
+    signUpBtn.style.display = "inline-block";
+    signOutBtn.style.display = "none";
+    authEmail.style.display = "inline-block";
+    authPassword.style.display = "inline-block";
+  }
+}
+
+signUpBtn.addEventListener("click", async () => {
+  const email = authEmail.value.trim();
+  const password = authPassword.value;
+
+  if (!email || !password) {
+    showToast("Enter an email and password.");
+    return;
+  }
+
+  if (password.length < 6) {
+    showToast("Password must be at least 6 characters.");
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.signUp({
+    email,
+    password
+  });
+
+  if (error) {
+    showToast(error.message);
+    return;
+  }
+
+  showToast("Account created. You are now signed in.");
+  await updateAuthUI();
+});
+
+signInBtn.addEventListener("click", async () => {
+  const email = authEmail.value.trim();
+  const password = authPassword.value;
+
+  if (!email || !password) {
+    showToast("Enter your email and password.");
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    showToast(error.message);
+    return;
+  }
+
+  showToast("Signed in successfully.");
+  await updateAuthUI();
+});
+
+signOutBtn.addEventListener("click", async () => {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    showToast(error.message);
+    return;
+  }
+
+  showToast("Signed out.");
+  await updateAuthUI();
+});
+
+supabaseClient.auth.onAuthStateChange(() => {
+  updateAuthUI();
+});
+
+updateAuthUI();
 </script>
 
 </body>
