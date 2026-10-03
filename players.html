@@ -41,7 +41,46 @@
 
 
 <main>
+<section class="panel" id="accountPanel">
+  <div class="section-head">
+    <h2>👤 Player Account</h2>
+    <span class="pill" id="authStatus">Not signed in</span>
+  </div>
 
+  <p class="data-note">
+    Sign in to create and join Rocket League lobbies.
+  </p>
+
+  <div class="tracker-lookup">
+    <input
+      id="authEmail"
+      type="email"
+      placeholder="Email address"
+      autocomplete="email">
+
+    <input
+      id="authPassword"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password">
+
+    <button class="primary-btn" id="signInBtn" type="button">
+      Sign In
+    </button>
+
+    <button class="primary-btn" id="signUpBtn" type="button">
+      Create Account
+    </button>
+
+    <button
+      class="primary-btn"
+      id="signOutBtn"
+      type="button"
+      style="display:none;">
+      Sign Out
+    </button>
+  </div>
+</section>
   <!-- HERO -->
 
   <section class="hero">
