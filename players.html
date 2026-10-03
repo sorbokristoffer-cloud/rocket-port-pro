@@ -574,10 +574,7 @@ const supabaseClient = supabase.createClient(
 );
 </script>
 <script src="app.js"></script>
-
-
 <script>
-
 const rankFilter = document.querySelector("#rankFilter");
 const playlistFilter = document.querySelector("#playlistFilter");
 const regionFilter = document.querySelector("#regionFilter");
@@ -586,14 +583,14 @@ const lobbyGrid = document.querySelector("#lobbyGrid");
 const noLobbies = document.querySelector("#noLobbies");
 
 async function loadLobbies() {
- async function loadLobbies() {
   noLobbies.style.display = "block";
   noLobbies.textContent = "Loading active lobbies...";
   lobbyGrid.innerHTML = "";
 
   try {
     const response = await fetch(
-      SUPABASE_URL + "/rest/v1/lobbies?select=*&status=eq.open&expires_at=gt." +
+      SUPABASE_URL +
+      "/rest/v1/lobbies?select=*&status=eq.open&expires_at=gt." +
       encodeURIComponent(new Date().toISOString()) +
       "&order=created_at.desc",
       {
@@ -636,13 +633,8 @@ async function loadLobbies() {
 
       card.innerHTML = `
         <div class="lobby-top">
-          <span class="rank-badge">
-            ${formatRank(lobby.rank)}
-          </span>
-
-          <span class="lobby-status">
-            0/${lobby.max_players}
-          </span>
+          <span class="rank-badge">${formatRank(lobby.rank)}</span>
+          <span class="lobby-status">0/${lobby.max_players}</span>
         </div>
 
         <h3>
@@ -651,9 +643,7 @@ async function loadLobbies() {
           ${formatMode(lobby.mode)}
         </h3>
 
-        <p>
-          A player is looking for teammates.
-        </p>
+        <p>A player is looking for teammates.</p>
 
         <div class="lobby-meta">
           <span>${formatRegion(lobby.region)}</span>
@@ -665,11 +655,9 @@ async function loadLobbies() {
         </button>
       `;
 
-      card
-        .querySelector(".join-lobby")
-        .addEventListener("click", () => {
-          showToast("Account sign-in will be connected next.");
-        });
+      card.querySelector(".join-lobby").addEventListener("click", () => {
+        showToast("Sign in to join this lobby.");
+      });
 
       lobbyGrid.appendChild(card);
     });
@@ -679,7 +667,6 @@ async function loadLobbies() {
     noLobbies.textContent =
       "Unable to connect to the lobby server.";
   }
-}
 }
 
 function formatRank(rank) {
@@ -723,28 +710,26 @@ function formatMode(mode) {
   filter.addEventListener("change", loadLobbies);
 });
 
-document
-  .querySelectorAll("[data-rank-button]")
-  .forEach(button => {
-    button.addEventListener("click", () => {
-      rankFilter.value = button.dataset.rankButton;
-      loadLobbies();
+document.querySelectorAll("[data-rank-button]").forEach(button => {
+  button.addEventListener("click", () => {
+    rankFilter.value = button.dataset.rankButton;
+    loadLobbies();
 
-      window.scrollTo({
-        top: lobbyGrid.offsetTop - 100,
-        behavior: "smooth"
-      });
+    window.scrollTo({
+      top: lobbyGrid.offsetTop - 100,
+      behavior: "smooth"
     });
   });
+});
 
-document
-  .querySelector("#createLobbyBtn")
-  .addEventListener("click", () => {
-    showToast("Lobby creation is coming next.");
-  });
+document.querySelector("#createLobbyBtn").addEventListener("click", () => {
+  showToast("Lobby creation is coming next.");
+});
 
-loadLobbies();
-  const authEmail = document.querySelector("#authEmail");
+
+/* ACCOUNT */
+
+const authEmail = document.querySelector("#authEmail");
 const authPassword = document.querySelector("#authPassword");
 const signInBtn = document.querySelector("#signInBtn");
 const signUpBtn = document.querySelector("#signUpBtn");
@@ -796,7 +781,7 @@ signUpBtn.addEventListener("click", async () => {
     return;
   }
 
-  showToast("Account created. You are now signed in.");
+  showToast("Account created successfully.");
   await updateAuthUI();
 });
 
@@ -839,6 +824,7 @@ supabaseClient.auth.onAuthStateChange(() => {
   updateAuthUI();
 });
 
+loadLobbies();
 updateAuthUI();
 </script>
 
