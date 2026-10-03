@@ -214,12 +214,53 @@
 
     <div class="lobby-actions">
 
-      <button
-        class="primary-btn"
-        id="createLobbyBtn">
-        + Create Lobby
-      </button>
+     <button class="primary-btn" id="createLobbyBtn" type="button">
+  Create Lobby
+</button>
 
+<div id="createLobbyForm" style="display:none; margin-top:20px;">
+  <div class="tracker-lookup">
+    <select id="newLobbyRank">
+      <option value="bronze">Bronze</option>
+      <option value="silver">Silver</option>
+      <option value="gold">Gold</option>
+      <option value="platinum">Platinum</option>
+      <option value="diamond">Diamond</option>
+      <option value="champion">Champion</option>
+      <option value="grand-champion">Grand Champion</option>
+      <option value="ssl">Supersonic Legend</option>
+    </select>
+
+    <select id="newLobbyPlaylist">
+      <option value="2v2">2v2</option>
+      <option value="3v3">3v3</option>
+      <option value="1v1">1v1</option>
+    </select>
+
+    <select id="newLobbyRegion">
+      <option value="na">North America</option>
+      <option value="eu">Europe</option>
+      <option value="oce">Oceania</option>
+      <option value="sam">South America</option>
+      <option value="mena">Middle East</option>
+      <option value="asia">Asia</option>
+    </select>
+
+    <select id="newLobbyMode">
+      <option value="ranked">Ranked</option>
+      <option value="casual">Casual</option>
+    </select>
+
+    <select id="newLobbyPlayers">
+      <option value="2">2 Players</option>
+      <option value="3">3 Players</option>
+    </select>
+
+    <button class="primary-btn" id="submitLobbyBtn" type="button">
+      Publish Lobby
+    </button>
+  </div>
+</div>
       <span>
         Looking for teammates? Create a lobby and let other players join.
       </span>
