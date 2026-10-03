@@ -7,3 +7,139 @@
 .directory-search-help strong { display:block; margin-bottom:5px; }
 .directory-search-help span { color:#8fa6c1; font-size:.9rem; line-height:1.45; display:block; }
 @media (max-width: 760px) { .directory-search-help { grid-template-columns:1fr; } }
+/* =========================================
+   Improve Your Game / Guides
+   Clean, readable layout
+   ========================================= */
+
+#improve {
+  margin-top: 28px;
+}
+
+#improve .data-note {
+  max-width: 760px;
+  line-height: 1.7;
+}
+
+#improve .directory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+#improve .directory-item {
+  min-height: 150px;
+  padding: 22px;
+  border-radius: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+#improve .directory-item b {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1.05rem;
+}
+
+#improve .directory-item span {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+#improve .directory-item p {
+  margin: 0;
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+#improve .dir-icon {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  font-size: 1.25rem;
+}
+
+
+/* Guides page */
+
+main > .panel {
+  margin-bottom: 28px;
+}
+
+main > .panel .data-note {
+  max-width: 780px;
+  line-height: 1.7;
+}
+
+main > .panel .directory-grid {
+  margin-top: 24px;
+}
+
+main > .panel .directory-item {
+  min-height: 145px;
+  padding: 22px;
+  border-radius: 14px;
+}
+
+main > .panel .directory-item b {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1.05rem;
+}
+
+main > .panel .directory-item span {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+main > .panel .directory-item p {
+  margin: 0;
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+main > .panel .dir-icon {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  font-size: 1.25rem;
+}
+
+
+/* Smaller screens */
+
+@media (max-width: 900px) {
+  #improve .directory-grid,
+  main > .panel .directory-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  #improve .directory-grid,
+  main > .panel .directory-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #improve .directory-item,
+  main > .panel .directory-item {
+    min-height: auto;
+    padding: 18px;
+  }
+}
