@@ -1,276 +1,886 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Rocket League Player Directory | Rocket League Hub</title>
-  <meta name="description" content="Rocket League Hub player directory — find Rocket League players and open public player profiles, stats, and rankings through trusted external sources.">
+  <title>Find Rocket League Players & Lobbies | Rocket League Hub</title>
 
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="description" content="Find Rocket League players by rank, playlist, and region. Join or create lobbies for ranked and casual games.">
+
+  <meta name="robots" content="index, follow">
 
   <link rel="canonical" href="https://sorbokristoffer-cloud.github.io/rocket-port-pro/players.html">
-
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Rocket Port Pro">
-  <meta property="og:title" content="Rocket League Player Directory | Rocket Port Pro">
-  <meta property="og:description" content="Find Rocket League players and open their public profiles and statistics.">
-  <meta property="og:url" content="https://sorbokristoffer-cloud.github.io/rocket-port-pro/players.html">
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Rocket League Player Directory | Rocket Port Pro">
-  <meta name="twitter:description" content="Find Rocket League players and open their public profiles and statistics.">
 
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-  <header class="site-header">
-    <div class="nav-wrap">
-      <a class="brand" href="index.html">
-        <span class="brand-mark">🚀</span>
-       <span>Rocket League Hub</span>
-      </a>
+<header class="site-header">
 
-      <nav>
-        <a href="index.html">Home</a>
-        <a class="active" href="players.html">Players</a>
-        <a href="index.html#tournaments">Tournaments</a>
-        <a href="index.html#communities">Communities</a>
-        <a href="index.html#directory">Directory</a>
-      </nav>
+  <a class="brand" href="index.html">
+    <span class="brand-mark">🚀</span>
+
+    <span>
+      <strong>ROCKET LEAGUE HUB</strong>
+      <small>PLAYERS & LFG</small>
+    </span>
+  </a>
+
+  <button class="menu-toggle" aria-label="Open menu">☰</button>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="players.html" class="active">Players</a>
+    <a href="guides.html">Rank-Up Guides</a>
+    <a href="communities.html">Communities</a>
+  </nav>
+
+</header>
+
+
+<main>
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <p class="eyebrow">FIND YOUR TEAM</p>
+
+      <h1>
+        Rocket League<br>
+        <span>Players & Lobbies</span>
+      </h1>
+
+      <p class="hero-copy">
+        Find players around your rank, join a lobby, and find teammates
+        for your next Rocket League game.
+      </p>
+
     </div>
-  </header>
 
-  <main>
+  </section>
 
-    <section class="hero">
-      <div class="hero-content">
-        <span class="eyebrow">ROCKET LEAGUE PLAYER DIRECTORY</span>
 
-        <h1>Find Rocket League Players</h1>
+  <!-- FIND PLAYERS -->
+
+  <section class="panel">
+
+    <div class="section-head">
+
+      <h2>🎮 Find Players</h2>
+
+      <span class="pill">
+        Rank-Based LFG
+      </span>
+
+    </div>
+
+    <p class="data-note">
+      Choose your rank to find players looking for teammates at a similar
+      skill level. Select a playlist and region to narrow down your search.
+    </p>
+
+
+    <div class="lfg-filters">
+
+      <select id="rankFilter">
+        <option value="all">All Ranks</option>
+        <option value="bronze">Bronze</option>
+        <option value="silver">Silver</option>
+        <option value="gold">Gold</option>
+        <option value="platinum">Platinum</option>
+        <option value="diamond">Diamond</option>
+        <option value="champion">Champion</option>
+        <option value="grand-champion">Grand Champion</option>
+        <option value="ssl">Supersonic Legend</option>
+      </select>
+
+
+      <select id="playlistFilter">
+
+        <option value="all">
+          All Playlists
+        </option>
+
+        <option value="1v1">
+          1v1
+        </option>
+
+        <option value="2v2">
+          2v2
+        </option>
+
+        <option value="3v3">
+          3v3
+        </option>
+
+      </select>
+
+
+      <select id="regionFilter">
+
+        <option value="all">
+          All Regions
+        </option>
+
+        <option value="na">
+          North America
+        </option>
+
+        <option value="eu">
+          Europe
+        </option>
+
+        <option value="oce">
+          Oceania
+        </option>
+
+        <option value="sam">
+          South America
+        </option>
+
+        <option value="mena">
+          Middle East
+        </option>
+
+        <option value="asia">
+          Asia
+        </option>
+
+      </select>
+
+
+      <select id="modeFilter">
+
+        <option value="all">
+          Ranked & Casual
+        </option>
+
+        <option value="ranked">
+          Ranked
+        </option>
+
+        <option value="casual">
+          Casual
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="lobby-actions">
+
+      <button
+        class="primary-btn"
+        id="createLobbyBtn">
+        + Create Lobby
+      </button>
+
+      <span>
+        Looking for teammates? Create a lobby and let other players join.
+      </span>
+
+    </div>
+
+
+    <!-- LOBBIES -->
+
+    <div class="lobby-grid" id="lobbyGrid">
+
+
+      <article
+        class="lobby-card"
+        data-rank="diamond"
+        data-playlist="2v2"
+        data-region="na"
+        data-mode="ranked">
+
+        <div class="lobby-top">
+
+          <span class="rank-badge">
+            💎 Diamond
+          </span>
+
+          <span class="lobby-status">
+            1/2
+          </span>
+
+        </div>
+
+
+        <h3>Diamond 2v2 Ranked</h3>
 
         <p>
-          Search for a player and open their public Rocket League profile.
-          Rocket Port Pro does not invent or store rank and MMR information.
+          Looking for one teammate for ranked games.
         </p>
 
-        <div class="hero-actions">
-          <a class="primary-btn" href="index.html#players">
-            Player Lookup ↗
-          </a>
 
-          <a class="secondary-btn" href="index.html">
-            Back to Rocket Port Pro
-          </a>
+        <div class="lobby-meta">
+
+          <span>🇺🇸 North America</span>
+
+          <span>🎮 Ranked</span>
+
         </div>
-      </div>
-    </section>
 
-    <section class="panel" id="player-search">
 
-      <div class="section-head">
-        <div>
-          <h2>🔎 Player Search</h2>
-          <p class="data-note">
-            Enter a Rocket League username and choose the platform.
-          </p>
-        </div>
-      </div>
-
-      <form class="tracker-lookup" id="playerSearchForm">
-
-        <select id="playerPlatform" aria-label="Player platform">
-          <option value="epic">Epic</option>
-          <option value="steam">Steam</option>
-          <option value="xbox">Xbox</option>
-          <option value="psn">PlayStation</option>
-        </select>
-
-        <input
-          id="playerUsername"
-          type="text"
-          placeholder="Enter player name..."
-          autocomplete="off"
-          required
-        >
-
-        <button class="primary-btn" type="submit">
-          Find Player ↗
+        <button
+          class="primary-btn join-lobby"
+          type="button">
+          Join Lobby →
         </button>
 
-      </form>
+      </article>
 
-      <div id="playerSearchResult" class="data-source" hidden></div>
 
-    </section>
-<section class="panel">
-  <div class="section-head">
-    <h2>⭐ Featured Players</h2>
-    <span>RLCS Profiles</span>
-  </div>
+      <article
+        class="lobby-card"
+        data-rank="champion"
+        data-playlist="2v2"
+        data-region="eu"
+        data-mode="ranked">
 
-  <div class="directory-grid">
-    <article class="directory-card">
-    
-</a>
-      <p>Professional Rocket League player from France and Team Vitality.</p>
-      <a
-        class="primary-btn"
-        href="https://blast.tv/rl/player/0f1c26cc/zen/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        View Public Profile ↗
-      </a>
-    </article>
+        <div class="lobby-top">
 
-    <article class="directory-card">
-   
-</a>
-      <p>Professional Rocket League player from the United States and NRG.</p>
-      <a
-        class="primary-btn"
-        href="https://blast.tv/rl/player/f701932c/daniel"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        View Public Profile ↗
-      </a>
-    </article>
+          <span class="rank-badge">
+            🏆 Champion
+          </span>
 
-    <article class="directory-card">
-   
-</a>
-      <p>Professional Rocket League player from the United States and NRG.</p>
-      <a
-        class="primary-btn"
-        href="https://blast.tv/rl/player/00affd39/beastmode/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        View Public Profile ↗
-      </a>
-    </article>
-  </div>
+          <span class="lobby-status">
+            1/2
+          </span>
 
-  <p class="data-source">
-    Player information is based on publicly documented competitive Rocket League profiles.
-  </p>
-</section>
-    <section class="panel">
+        </div>
 
-      <div class="section-head">
-        <h2>🎮 Player Directory</h2>
-        <span class="pill">Public profiles</span>
-      </div>
 
-      <div class="directory-grid">
+        <h3>Champion 2v2</h3>
 
-        <article class="directory-card">
-          <span class="card-icon">🏆</span>
-          <h3>Competitive Players</h3>
-          <p>
-            Find public profiles for Rocket League players and competitive accounts.
-          </p>
-        </article>
+        <p>
+          Looking for a serious ranked teammate.
+        </p>
 
-        <article class="directory-card">
-          <span class="card-icon">📊</span>
-          <h3>Player Statistics</h3>
-          <p>
-            Open public profiles to view available ranks, MMR, seasonal statistics,
-            and match history.
-          </p>
-        </article>
 
-        <article class="directory-card">
-          <span class="card-icon">🌐</span>
-          <h3>Multiple Platforms</h3>
-          <p>
-            Search using Epic, Steam, Xbox, or PlayStation platform information.
-          </p>
-        </article>
+        <div class="lobby-meta">
 
-      </div>
+          <span>🇪🇺 Europe</span>
 
-    </section>
+          <span>🎮 Ranked</span>
 
-    <section class="panel">
+        </div>
 
-      <div class="section-head">
-        <h2>📌 About Player Data</h2>
-      </div>
 
-      <p class="data-note">
-        Rocket Port Pro links visitors to public Rocket League player profiles
-        instead of scraping or manufacturing player statistics. Availability of
-        ranks, MMR, seasonal statistics, and match history depends on the public
-        profile and the data provider.
-      </p>
+        <button
+          class="primary-btn join-lobby"
+          type="button">
+          Join Lobby →
+        </button>
 
-      <p class="data-note">
-        No Rocket League password is requested or stored by Rocket Port Pro.
-      </p>
+      </article>
 
-    </section>
 
-  </main>
+      <article
+        class="lobby-card"
+        data-rank="platinum"
+        data-playlist="3v3"
+        data-region="na"
+        data-mode="casual">
 
-  <footer>
-    <div class="footer-inner">
-      <strong>Rocket League Hub</strong>
-      <span>Rocket League Gaming Hub & Directory</span>
+        <div class="lobby-top">
+
+          <span class="rank-badge">
+            🟦 Platinum
+          </span>
+
+          <span class="lobby-status">
+            2/3
+          </span>
+
+        </div>
+
+
+        <h3>Platinum 3v3</h3>
+
+        <p>
+          Casual games and good vibes.
+        </p>
+
+
+        <div class="lobby-meta">
+
+          <span>🇺🇸 North America</span>
+
+          <span>🎮 Casual</span>
+
+        </div>
+
+
+        <button
+          class="primary-btn join-lobby"
+          type="button">
+          Join Lobby →
+        </button>
+
+      </article>
+
+
+      <article
+        class="lobby-card"
+        data-rank="gold"
+        data-playlist="2v2"
+        data-region="eu"
+        data-mode="ranked">
+
+        <div class="lobby-top">
+
+          <span class="rank-badge">
+            🟨 Gold
+          </span>
+
+          <span class="lobby-status">
+            1/2
+          </span>
+
+        </div>
+
+
+        <h3>Gold 2v2 Ranked</h3>
+
+        <p>
+          Looking for a teammate to grind ranked.
+        </p>
+
+
+        <div class="lobby-meta">
+
+          <span>🇪🇺 Europe</span>
+
+          <span>🎮 Ranked</span>
+
+        </div>
+
+
+        <button
+          class="primary-btn join-lobby"
+          type="button">
+          Join Lobby →
+        </button>
+
+      </article>
+
+
     </div>
-  </footer>
 
-  <script>
-   const playerForm = document.querySelector("#playerSearchForm");
-const platform = document.querySelector("#playerPlatform");
-const username = document.querySelector("#playerUsername");
-const result = document.querySelector("#playerSearchResult");
 
-const params = new URLSearchParams(window.location.search);
-const searchPlayer = params.get("search");
+    <div
+      id="noLobbies"
+      class="data-note"
+      style="display:none; text-align:center; padding:30px;">
 
-if (searchPlayer && username) {
-  username.value = searchPlayer;
-}
+      No lobbies match those filters yet.
 
-if (playerForm) {
-  playerForm.addEventListener("submit", function(event) {
-    event.preventDefault();
+    </div>
 
-    const name = username.value.trim();
+  </section>
 
-    if (!name) {
-      username.focus();
-      return;
+
+  <!-- RANK CATEGORIES -->
+
+  <section class="panel">
+
+    <div class="section-head">
+
+      <h2>🏅 Find Players By Rank</h2>
+
+      <span class="pill">
+        Choose Your Skill Level
+      </span>
+
+    </div>
+
+
+    <div class="rank-grid">
+
+
+      <button class="rank-card" data-rank-button="bronze">
+        <strong>Bronze</strong>
+        <span>Starting out</span>
+      </button>
+
+
+      <button class="rank-card" data-rank-button="silver">
+        <strong>Silver</strong>
+        <span>Building fundamentals</span>
+      </button>
+
+
+      <button class="rank-card" data-rank-button="gold">
+        <strong>Gold</strong>
+        <span>Developing consistency</span>
+      </button>
+
+
+      <button class="rank-card" data-rank-button="platinum">
+        <strong>Platinum</strong>
+        <span>Improving game sense</span>
+      </button>
+
+
+      <button class="rank-card" data-rank-button="diamond">
+        <strong>Diamond</strong>
+        <span>Faster decisions</span>
+      </button>
+
+
+      <button class="rank-card" data-rank-button="champion">
+        <strong>Champion</strong>
+        <span>Advanced play</span>
+      </button>
+
+
+      <button class="rank-card" data-rank-button="grand-champion">
+        <strong>Grand Champion</strong>
+        <span>High-level consistency</span>
+      </button>
+
+
+      <button class="rank-card" data-rank-button="ssl">
+        <strong>Supersonic Legend</strong>
+        <span>Elite competition</span>
+      </button>
+
+
+    </div>
+
+  </section>
+
+
+  <!-- PLAYER LOOKUP -->
+
+  <section class="panel">
+
+    <div class="section-head">
+
+      <h2>🔎 Player Lookup</h2>
+
+      <span class="pill">
+        Public Profiles
+      </span>
+
+    </div>
+
+
+    <p class="data-note">
+
+      Looking for a specific player instead of a teammate?
+      Search their public Rocket League Tracker profile.
+
+    </p>
+
+
+    <form
+      class="tracker-lookup"
+      id="trackerLookup">
+
+      <select id="trackerPlatform">
+
+        <option value="epic">
+          Epic
+        </option>
+
+        <option value="steam">
+          Steam
+        </option>
+
+        <option value="xbox">
+          Xbox
+        </option>
+
+        <option value="psn">
+          PlayStation
+        </option>
+
+      </select>
+
+
+      <input
+        id="trackerUsername"
+        type="text"
+        placeholder="Rocket League username..."
+        autocomplete="off"
+        required>
+
+
+      <button
+        class="primary-btn"
+        type="submit">
+
+        View RL Stats ↗
+
+      </button>
+
+    </form>
+
+
+    <div class="data-source">
+
+      <strong>Data source:</strong>
+      Rocket League Tracker by Tracker Network.
+
+    </div>
+
+  </section>
+
+
+  <!-- HOW IT WORKS -->
+
+  <section class="panel">
+
+    <div class="section-head">
+
+      <h2>💡 How Player Lobbies Work</h2>
+
+    </div>
+
+
+    <div class="directory-grid">
+
+
+      <article class="directory-item">
+
+        <div class="dir-icon">
+          1
+        </div>
+
+        <div>
+
+          <b>Choose Your Rank</b>
+
+          <p>
+            Pick the rank category closest to your current
+            competitive level.
+          </p>
+
+        </div>
+
+      </article>
+
+
+      <article class="directory-item">
+
+        <div class="dir-icon">
+          2
+        </div>
+
+        <div>
+
+          <b>Find a Lobby</b>
+
+          <p>
+            Filter by playlist, region, and ranked or casual
+            play to find compatible teammates.
+          </p>
+
+        </div>
+
+      </article>
+
+
+      <article class="directory-item">
+
+        <div class="dir-icon">
+          3
+        </div>
+
+        <div>
+
+          <b>Play Together</b>
+
+          <p>
+            Join the lobby and connect with the other players
+            to start your next game.
+          </p>
+
+        </div>
+
+      </article>
+
+
+    </div>
+
+  </section>
+
+
+  <section class="cta">
+
+    <div>
+
+      <p class="eyebrow">
+        KEEP IMPROVING
+      </p>
+
+      <h2>
+        Want to rank up?
+      </h2>
+
+      <p>
+        Check out Rocket League Hub's rank-up guides
+        and improvement resources.
+      </p>
+
+    </div>
+
+
+    <a
+      class="primary-btn"
+      href="guides.html">
+
+      View Rank-Up Guides →
+
+    </a>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="footer-inner">
+
+    <div class="brand">
+
+      <span class="brand-mark">
+        🚀
+      </span>
+
+      <span>
+
+        <strong>
+          ROCKET LEAGUE HUB
+        </strong>
+
+        <small>
+          PLAYERS & LFG
+        </small>
+
+      </span>
+
+    </div>
+
+
+    <div class="footer-links">
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="players.html">
+        Players
+      </a>
+
+      <a href="guides.html">
+        Guides
+      </a>
+
+      <a href="communities.html">
+        Communities
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <p class="legal">
+
+    © 2026 Rocket League Hub.
+    Independent community project.
+    Rocket League and related marks belong to their respective owners.
+
+  </p>
+
+</footer>
+
+
+<div
+  class="toast"
+  id="toast"
+  role="status">
+</div>
+
+
+<script src="app.js"></script>
+
+
+<script>
+
+const rankFilter =
+  document.querySelector("#rankFilter");
+
+const playlistFilter =
+  document.querySelector("#playlistFilter");
+
+const regionFilter =
+  document.querySelector("#regionFilter");
+
+const modeFilter =
+  document.querySelector("#modeFilter");
+
+const lobbyGrid =
+  document.querySelector("#lobbyGrid");
+
+const noLobbies =
+  document.querySelector("#noLobbies");
+
+
+function filterLobbies() {
+
+  const rank =
+    rankFilter.value;
+
+  const playlist =
+    playlistFilter.value;
+
+  const region =
+    regionFilter.value;
+
+  const mode =
+    modeFilter.value;
+
+
+  const lobbies =
+    document.querySelectorAll(".lobby-card");
+
+
+  let visible =
+    0;
+
+
+  lobbies.forEach(lobby => {
+
+    const rankMatch =
+      rank === "all" ||
+      lobby.dataset.rank === rank;
+
+    const playlistMatch =
+      playlist === "all" ||
+      lobby.dataset.playlist === playlist;
+
+    const regionMatch =
+      region === "all" ||
+      lobby.dataset.region === region;
+
+    const modeMatch =
+      mode === "all" ||
+      lobby.dataset.mode === mode;
+
+
+    if (
+      rankMatch &&
+      playlistMatch &&
+      regionMatch &&
+      modeMatch
+    ) {
+
+      lobby.style.display = "";
+
+      visible++;
+
+    } else {
+
+      lobby.style.display = "none";
+
     }
 
-    const encodedName = encodeURIComponent(name);
-
-    const trackerUrl =
-      "https://rocketleague.tracker.network/rocket-league/profile/" +
-      platform.value +
-      "/" +
-      encodedName +
-      "/overview";
-
-    result.hidden = false;
-
-    result.innerHTML =
-      "<strong>Player:</strong> " +
-      name +
-      '<br><br><a class="primary-btn" href="' +
-      trackerUrl +
-      '" target="_blank" rel="noopener noreferrer">' +
-      "Open Public Tracker Profile ↗" +
-      "</a>";
   });
+
+
+  noLobbies.style.display =
+    visible === 0
+      ? "block"
+      : "none";
+
 }
-  </script>
+
+
+[
+  rankFilter,
+  playlistFilter,
+  regionFilter,
+  modeFilter
+].forEach(filter => {
+
+  filter.addEventListener(
+    "change",
+    filterLobbies
+  );
+
+});
+
+
+document
+  .querySelectorAll("[data-rank-button]")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        rankFilter.value =
+          button.dataset.rankButton;
+
+        filterLobbies();
+
+        window.scrollTo({
+          top:
+            lobbyGrid.offsetTop - 100,
+          behavior:
+            "smooth"
+        });
+
+      }
+    );
+
+  });
+
+
+document
+  .querySelectorAll(".join-lobby")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        showToast(
+          "Lobby joining will be connected to player accounts next."
+        );
+
+      }
+    );
+
+  });
+
+
+document
+  .querySelector("#createLobbyBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      showToast(
+        "Lobby creation will be connected to player accounts next."
+      );
+
+    }
+  );
+
+</script>
 
 </body>
 </html>
