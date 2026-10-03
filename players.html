@@ -763,11 +763,80 @@ document.querySelectorAll("[data-rank-button]").forEach(button => {
   });
 });
 
-document.querySelector("#createLobbyBtn").addEventListener("click", () => {
-  showToast("Lobby creation is coming next.");
+const createLobbyBtn = document.querySelector("#createLobbyBtn");
+const createLobbyForm = document.querySelector("#createLobbyForm");
+const submitLobbyBtn = document.querySelector("#submitLobbyBtn");
+
+createLobbyBtn.addEventListener("click", async () => {
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (!data.session) {
+    showToast("Please sign in before creating a lobby.");
+    return;
+  }
+
+  createLobbyForm.style.display =
+    createLobbyForm.style.display === "none" ? "block" : "none";
 });
 
+submitLobbyBtn.addEventListener("click", async () => {
+  const { data } = await supabaseClient.auth.getSession();
+  const session = data.session;
 
+  if (!session) {
+    showToast("Please sign in before creating a lobby.");
+    return;
+  }
+
+  submitLobbyBtn.disabled = true;
+  submitLobbyBtn.textContent = "Publishing...";
+
+  const lobby = {
+    owner_id: session.user.id,
+    rank: document.querySelector("#newLobbyRank").value,
+    playlist: document.querySelector("#newLobbyPlaylist").value,
+    region: document.querySelector("#newLobbyRegion").value,
+    mode: document.querySelector("#newLobbyMode").value,
+    max_players: Number(document.querySelector("#newLobbyPlayers").value),
+    status: "open"
+  };
+
+  try {
+    const { data: createdLobby, error } = await supabaseClient
+      .from("lobbies")
+      .insert(lobby)
+      .select()
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    const { error: memberError } = await supabaseClient
+      .from("lobby_members")
+      .insert({
+        lobby_id: createdLobby.id,
+        user_id: session.user.id
+      });
+
+    if (memberError) {
+      throw memberError;
+    }
+
+    showToast("Lobby published successfully!");
+
+    createLobbyForm.style.display = "none";
+
+    await loadLobbies();
+
+  } catch (error) {
+    console.error(error);
+    showToast("Could not create lobby: " + error.message);
+  }
+
+  submitLobbyBtn.disabled = false;
+  submitLobbyBtn.textContent = "Publish Lobby";
+});
 /* ACCOUNT */
 
 const authEmail = document.querySelector("#authEmail");
