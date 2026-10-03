@@ -630,7 +630,8 @@ async function loadLobbies() {
 
   try {
     const { data: sessionData } = await supabaseClient.auth.getSession();
-const accessToken = sessionData.session?.access_token || SUPABASE_KEY;
+    const accessToken = sessionData.session?.access_token || SUPABASE_KEY;
+
     const response = await fetch(
       SUPABASE_URL +
       "/rest/v1/lobbies?select=*,lobby_members(count)&status=eq.open&expires_at=gt." +
@@ -649,9 +650,11 @@ const accessToken = sessionData.session?.access_token || SUPABASE_KEY;
     }
 
     const data = await response.json();
-data.forEach(lobby => {
-  lobby.member_count = lobby.lobby_members?.[0]?.count || 0;
-});
+
+    data.forEach(lobby => {
+      lobby.member_count = lobby.lobby_members?.[0]?.count || 0;
+    });
+
     const rank = rankFilter.value;
     const playlist = playlistFilter.value;
     const region = regionFilter.value;
@@ -679,7 +682,7 @@ data.forEach(lobby => {
       card.innerHTML = `
         <div class="lobby-top">
           <span class="rank-badge">${formatRank(lobby.rank)}</span>
-         <span class="lobby-status">${lobby.member_count || 0}/${lobby.max_players}</span>
+          <span class="lobby-status">${lobby.member_count || 0}/${lobby.max_players}</span>
         </div>
 
         <h3>
@@ -695,47 +698,48 @@ data.forEach(lobby => {
           <span>🎮 ${formatMode(lobby.mode)}</span>
         </div>
 
-      <div class="lobby-chat-actions">
-  <button class="primary-btn join-lobby" type="button">
-    Join Lobby →
-  </button>
+        <div class="lobby-chat-actions">
+          <button class="primary-btn join-lobby" type="button">
+            Join Lobby →
+          </button>
 
-  <button class="primary-btn open-chat" type="button">
-    💬 Chat
-  </button>
-</div>
-`;
-      
-card.querySelector(".open-chat").addEventListener("click", () => {
-  showToast("Lobby chat coming next.");
-});
-   card.querySelector(".join-lobby").addEventListener("click", async () => {
-  const { data } = await supabaseClient.auth.getSession();
+          <button class="primary-btn open-chat" type="button">
+            💬 Chat
+          </button>
+        </div>
+      `;
 
-  if (!data.session) {
-    showToast("Please sign in before joining a lobby.");
-    return;
-  }
+      card.querySelector(".open-chat").addEventListener("click", () => {
+        showToast("Lobby chat coming next.");
+      });
 
-  const button = card.querySelector(".join-lobby");
-  button.disabled = true;
-  button.textContent = "Joining...";
+      card.querySelector(".join-lobby").addEventListener("click", async () => {
+        const { data } = await supabaseClient.auth.getSession();
 
-  const { error } = await supabaseClient.rpc("join_lobby", {
-    p_lobby_id: lobby.id
-  });
+        if (!data.session) {
+          showToast("Please sign in before joining a lobby.");
+          return;
+        }
 
-  if (error) {
-    showToast(error.message);
-    button.disabled = false;
-    button.textContent = "Join Lobby →";
-    return;
-  }
+        const button = card.querySelector(".join-lobby");
+        button.disabled = true;
+        button.textContent = "Joining...";
 
-  showToast("Joined lobby successfully!");
+        const { error } = await supabaseClient.rpc("join_lobby", {
+          p_lobby_id: lobby.id
+        });
 
-  await loadLobbies();
-});
+        if (error) {
+          showToast(error.message);
+          button.disabled = false;
+          button.textContent = "Join Lobby →";
+          return;
+        }
+
+        showToast("Joined lobby successfully!");
+
+        await loadLobbies();
+      });
 
       lobbyGrid.appendChild(card);
     });
@@ -746,7 +750,6 @@ card.querySelector(".open-chat").addEventListener("click", () => {
       "Unable to connect to the lobby server.";
   }
 }
-
 function formatRank(rank) {
   const names = {
     bronze: "🟫 Bronze",
