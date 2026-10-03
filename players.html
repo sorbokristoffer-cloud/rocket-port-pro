@@ -695,10 +695,15 @@ data.forEach(lobby => {
           <span>🎮 ${formatMode(lobby.mode)}</span>
         </div>
 
-        <button class="primary-btn join-lobby" type="button">
-          Join Lobby →
-        </button>
-      `;
+      <div class="lobby-chat-actions">
+  <button class="primary-btn join-lobby" type="button">
+    Join Lobby →
+  </button>
+
+  <button class="primary-btn open-chat" type="button">
+    💬 Chat
+  </button>
+</div>
 
    card.querySelector(".join-lobby").addEventListener("click", async () => {
   const { data } = await supabaseClient.auth.getSession();
