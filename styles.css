@@ -152,3 +152,8 @@ body:has(a[href="guides.html"].active) .hero {
 body:has(a[href="guides.html"].active) .hero-overlay {
   display: none;
 }
+/* Remove large hero background images site-wide */
+.hero {
+  background-image: none !important;
+  background-color: #031224 !important;
+}
