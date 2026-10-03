@@ -157,3 +157,23 @@ body:has(a[href="guides.html"].active) .hero-overlay {
   background-image: none !important;
   background-color: #031224 !important;
 }
+/* Rocket League section images */
+.players-img {
+  background: url("assets/players-card.png") center/cover no-repeat;
+}
+
+.servers-img {
+  background: url("assets/guides-card.png") center/cover no-repeat;
+}
+
+.tourney-img {
+  background: url("assets/tournaments-card.png") center/cover no-repeat;
+}
+
+.clans-img {
+  background: url("assets/communities-card.png") center/cover no-repeat;
+}
+
+.directory-img {
+  background: url("assets/directory-card.png") center/cover no-repeat;
+}
