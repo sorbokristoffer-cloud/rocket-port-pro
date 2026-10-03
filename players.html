@@ -890,7 +890,46 @@ async function loadLobbies() {
     block: "start"
   });
 });
+card.querySelector(".leave-lobby").addEventListener("click", async () => {
+  const { data } = await supabaseClient.auth.getSession();
 
+  if (!data.session) {
+    showToast("Please sign in to leave a lobby.");
+    return;
+  }
+
+  const button = card.querySelector(".leave-lobby");
+  button.disabled = true;
+  button.textContent = "Leaving...";
+
+  const { error } = await supabaseClient
+    .from("lobby_members")
+    .delete()
+    .eq("lobby_id", lobby.id)
+    .eq("user_id", data.session.user.id);
+
+  if (error) {
+    console.error(error);
+    showToast(error.message);
+    button.disabled = false;
+    button.textContent = "Leave Lobby";
+    return;
+  }
+
+  showToast("You left the lobby.");
+
+  if (activeLobbyId === lobby.id) {
+    lobbyChat.style.display = "none";
+    activeLobbyId = null;
+
+    if (chatSubscription) {
+      await supabaseClient.removeChannel(chatSubscription);
+      chatSubscription = null;
+    }
+  }
+
+  await loadLobbies();
+});
       card.querySelector(".join-lobby").addEventListener("click", async () => {
         const { data } = await supabaseClient.auth.getSession();
 
