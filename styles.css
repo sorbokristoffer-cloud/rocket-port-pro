@@ -143,3 +143,12 @@ main > .panel .dir-icon {
     padding: 18px;
   }
 }
+/* Clean hero for guide pages */
+body:has(a[href="guides.html"].active) .hero {
+  background: #031224;
+  min-height: 300px;
+}
+
+body:has(a[href="guides.html"].active) .hero-overlay {
+  display: none;
+}
