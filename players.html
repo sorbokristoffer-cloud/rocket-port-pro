@@ -890,9 +890,11 @@ if (sessionData.session) {
     💬 Chat
   </button>
 
+  ${joinedLobbyIds.has(lobby.id) ? `
   <button class="primary-btn leave-lobby" type="button">
     Leave Lobby
   </button>
+` : ""}
 </div>
       `;
       
