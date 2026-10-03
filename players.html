@@ -547,79 +547,100 @@ const lobbyGrid = document.querySelector("#lobbyGrid");
 const noLobbies = document.querySelector("#noLobbies");
 
 async function loadLobbies() {
+ async function loadLobbies() {
   noLobbies.style.display = "block";
   noLobbies.textContent = "Loading active lobbies...";
   lobbyGrid.innerHTML = "";
 
-  const { data, error } = await supabaseClient
-    .from("lobbies")
-    .select("*")
-    .eq("status", "open")
-    .gt("expires_at", new Date().toISOString())
-    .order("created_at", { ascending: false });
+  try {
+    const response = await fetch(
+      SUPABASE_URL + "/rest/v1/lobbies?select=*&status=eq.open&expires_at=gt." +
+      encodeURIComponent(new Date().toISOString()) +
+      "&order=created_at.desc",
+      {
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: "Bearer " + SUPABASE_KEY
+        }
+      }
+    );
 
-  if (error) {
-    console.error(error);
-    noLobbies.textContent = "Unable to load lobbies right now.";
-    return;
-  }
+    if (!response.ok) {
+      throw new Error("Supabase request failed: " + response.status);
+    }
 
-  const rank = rankFilter.value;
-  const playlist = playlistFilter.value;
-  const region = regionFilter.value;
-  const mode = modeFilter.value;
+    const data = await response.json();
 
-  const filtered = data.filter(lobby =>
-    (rank === "all" || lobby.rank === rank) &&
-    (playlist === "all" || lobby.playlist === playlist) &&
-    (region === "all" || lobby.region === region) &&
-    (mode === "all" || lobby.mode === mode)
-  );
+    const rank = rankFilter.value;
+    const playlist = playlistFilter.value;
+    const region = regionFilter.value;
+    const mode = modeFilter.value;
 
-  if (!filtered.length) {
-    noLobbies.textContent = "No active lobbies match those filters yet.";
-    return;
-  }
+    const filtered = data.filter(lobby =>
+      (rank === "all" || lobby.rank === rank) &&
+      (playlist === "all" || lobby.playlist === playlist) &&
+      (region === "all" || lobby.region === region) &&
+      (mode === "all" || lobby.mode === mode)
+    );
 
-  noLobbies.style.display = "none";
+    if (!filtered.length) {
+      noLobbies.textContent =
+        "No active lobbies match those filters yet.";
+      return;
+    }
 
-  filtered.forEach(lobby => {
-    const card = document.createElement("article");
-    card.className = "lobby-card";
+    noLobbies.style.display = "none";
 
-    card.innerHTML = `
-      <div class="lobby-top">
-        <span class="rank-badge">
+    filtered.forEach(lobby => {
+      const card = document.createElement("article");
+      card.className = "lobby-card";
+
+      card.innerHTML = `
+        <div class="lobby-top">
+          <span class="rank-badge">
+            ${formatRank(lobby.rank)}
+          </span>
+
+          <span class="lobby-status">
+            0/${lobby.max_players}
+          </span>
+        </div>
+
+        <h3>
           ${formatRank(lobby.rank)}
-        </span>
+          ${lobby.playlist}
+          ${formatMode(lobby.mode)}
+        </h3>
 
-        <span class="lobby-status">
-          0/${lobby.max_players}
-        </span>
-      </div>
+        <p>
+          A player is looking for teammates.
+        </p>
 
-      <h3>${formatRank(lobby.rank)} ${lobby.playlist} ${formatMode(lobby.mode)}</h3>
+        <div class="lobby-meta">
+          <span>${formatRegion(lobby.region)}</span>
+          <span>🎮 ${formatMode(lobby.mode)}</span>
+        </div>
 
-      <p>
-        A player is looking for teammates.
-      </p>
+        <button class="primary-btn join-lobby" type="button">
+          Join Lobby →
+        </button>
+      `;
 
-      <div class="lobby-meta">
-        <span>${formatRegion(lobby.region)}</span>
-        <span>🎮 ${formatMode(lobby.mode)}</span>
-      </div>
+      card
+        .querySelector(".join-lobby")
+        .addEventListener("click", () => {
+          showToast("Account sign-in will be connected next.");
+        });
 
-      <button class="primary-btn join-lobby" type="button">
-        Join Lobby →
-      </button>
-    `;
-
-    card.querySelector(".join-lobby").addEventListener("click", () => {
-      showToast("Account sign-in will be connected next.");
+      lobbyGrid.appendChild(card);
     });
 
-    lobbyGrid.appendChild(card);
-  });
+  } catch (error) {
+    console.error(error);
+    noLobbies.textContent =
+      "Unable to connect to the lobby server.";
+  }
+}
 }
 
 function formatRank(rank) {
