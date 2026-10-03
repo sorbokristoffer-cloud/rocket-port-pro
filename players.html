@@ -675,7 +675,7 @@ async function loadLobbies() {
       card.innerHTML = `
         <div class="lobby-top">
           <span class="rank-badge">${formatRank(lobby.rank)}</span>
-          <span class="lobby-status">0/${lobby.max_players}</span>
+         <span class="lobby-status">${lobby.member_count || 0}/${lobby.max_players}</span>
         </div>
 
         <h3>
