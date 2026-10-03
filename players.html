@@ -539,94 +539,121 @@ const supabaseClient = supabase.createClient(
 
 <script>
 
-const rankFilter =
-  document.querySelector("#rankFilter");
+<script>
+const rankFilter = document.querySelector("#rankFilter");
+const playlistFilter = document.querySelector("#playlistFilter");
+const regionFilter = document.querySelector("#regionFilter");
+const modeFilter = document.querySelector("#modeFilter");
+const lobbyGrid = document.querySelector("#lobbyGrid");
+const noLobbies = document.querySelector("#noLobbies");
 
-const playlistFilter =
-  document.querySelector("#playlistFilter");
+async function loadLobbies() {
+  noLobbies.style.display = "block";
+  noLobbies.textContent = "Loading active lobbies...";
+  lobbyGrid.innerHTML = "";
 
-const regionFilter =
-  document.querySelector("#regionFilter");
+  const { data, error } = await supabaseClient
+    .from("lobbies")
+    .select("*")
+    .eq("status", "open")
+    .gt("expires_at", new Date().toISOString())
+    .order("created_at", { ascending: false });
 
-const modeFilter =
-  document.querySelector("#modeFilter");
+  if (error) {
+    console.error(error);
+    noLobbies.textContent = "Unable to load lobbies right now.";
+    return;
+  }
 
-const lobbyGrid =
-  document.querySelector("#lobbyGrid");
+  const rank = rankFilter.value;
+  const playlist = playlistFilter.value;
+  const region = regionFilter.value;
+  const mode = modeFilter.value;
 
-const noLobbies =
-  document.querySelector("#noLobbies");
+  const filtered = data.filter(lobby =>
+    (rank === "all" || lobby.rank === rank) &&
+    (playlist === "all" || lobby.playlist === playlist) &&
+    (region === "all" || lobby.region === region) &&
+    (mode === "all" || lobby.mode === mode)
+  );
 
+  if (!filtered.length) {
+    noLobbies.textContent = "No active lobbies match those filters yet.";
+    return;
+  }
 
-function filterLobbies() {
+  noLobbies.style.display = "none";
 
-  const rank =
-    rankFilter.value;
+  filtered.forEach(lobby => {
+    const card = document.createElement("article");
+    card.className = "lobby-card";
 
-  const playlist =
-    playlistFilter.value;
+    card.innerHTML = `
+      <div class="lobby-top">
+        <span class="rank-badge">
+          ${formatRank(lobby.rank)}
+        </span>
 
-  const region =
-    regionFilter.value;
+        <span class="lobby-status">
+          0/${lobby.max_players}
+        </span>
+      </div>
 
-  const mode =
-    modeFilter.value;
+      <h3>${formatRank(lobby.rank)} ${lobby.playlist} ${formatMode(lobby.mode)}</h3>
 
+      <p>
+        A player is looking for teammates.
+      </p>
 
-  const lobbies =
-    document.querySelectorAll(".lobby-card");
+      <div class="lobby-meta">
+        <span>${formatRegion(lobby.region)}</span>
+        <span>🎮 ${formatMode(lobby.mode)}</span>
+      </div>
 
+      <button class="primary-btn join-lobby" type="button">
+        Join Lobby →
+      </button>
+    `;
 
-  let visible =
-    0;
+    card.querySelector(".join-lobby").addEventListener("click", () => {
+      showToast("Account sign-in will be connected next.");
+    });
 
-
-  lobbies.forEach(lobby => {
-
-    const rankMatch =
-      rank === "all" ||
-      lobby.dataset.rank === rank;
-
-    const playlistMatch =
-      playlist === "all" ||
-      lobby.dataset.playlist === playlist;
-
-    const regionMatch =
-      region === "all" ||
-      lobby.dataset.region === region;
-
-    const modeMatch =
-      mode === "all" ||
-      lobby.dataset.mode === mode;
-
-
-    if (
-      rankMatch &&
-      playlistMatch &&
-      regionMatch &&
-      modeMatch
-    ) {
-
-      lobby.style.display = "";
-
-      visible++;
-
-    } else {
-
-      lobby.style.display = "none";
-
-    }
-
+    lobbyGrid.appendChild(card);
   });
-
-
-  noLobbies.style.display =
-    visible === 0
-      ? "block"
-      : "none";
-
 }
 
+function formatRank(rank) {
+  const names = {
+    bronze: "🟫 Bronze",
+    silver: "⬜ Silver",
+    gold: "🟨 Gold",
+    platinum: "🟦 Platinum",
+    diamond: "💎 Diamond",
+    champion: "🏆 Champion",
+    "grand-champion": "🏆 Grand Champion",
+    ssl: "⭐ Supersonic Legend"
+  };
+
+  return names[rank] || rank;
+}
+
+function formatRegion(region) {
+  const names = {
+    na: "🇺🇸 North America",
+    eu: "🇪🇺 Europe",
+    oce: "🌏 Oceania",
+    sam: "🌎 South America",
+    mena: "🌍 Middle East",
+    asia: "🌏 Asia"
+  };
+
+  return names[region] || region;
+}
+
+function formatMode(mode) {
+  return mode === "ranked" ? "Ranked" : "Casual";
+}
 
 [
   rankFilter,
@@ -634,72 +661,30 @@ function filterLobbies() {
   regionFilter,
   modeFilter
 ].forEach(filter => {
-
-  filter.addEventListener(
-    "change",
-    filterLobbies
-  );
-
+  filter.addEventListener("change", loadLobbies);
 });
-
 
 document
   .querySelectorAll("[data-rank-button]")
   .forEach(button => {
+    button.addEventListener("click", () => {
+      rankFilter.value = button.dataset.rankButton;
+      loadLobbies();
 
-    button.addEventListener(
-      "click",
-      () => {
-
-        rankFilter.value =
-          button.dataset.rankButton;
-
-        filterLobbies();
-
-        window.scrollTo({
-          top:
-            lobbyGrid.offsetTop - 100,
-          behavior:
-            "smooth"
-        });
-
-      }
-    );
-
+      window.scrollTo({
+        top: lobbyGrid.offsetTop - 100,
+        behavior: "smooth"
+      });
+    });
   });
-
-
-document
-  .querySelectorAll(".join-lobby")
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        showToast(
-          "Lobby joining will be connected to player accounts next."
-        );
-
-      }
-    );
-
-  });
-
 
 document
   .querySelector("#createLobbyBtn")
-  .addEventListener(
-    "click",
-    () => {
+  .addEventListener("click", () => {
+    showToast("Lobby creation is coming next.");
+  });
 
-      showToast(
-        "Lobby creation will be connected to player accounts next."
-      );
-
-    }
-  );
-
+loadLobbies();
 </script>
 
 </body>
