@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sorbokristoffer-cloud.github.io/rocket-port-pro/sitemap.xml
+Sitemap: https://rocketleaguehub.pages.dev/sitemap.xml
