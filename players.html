@@ -869,17 +869,19 @@ async function loadLobbies() {
           <span>🎮 ${formatMode(lobby.mode)}</span>
         </div>
 
-        <div class="lobby-chat-actions">
-          <button class="primary-btn join-lobby" type="button">
-            Join Lobby →
-          </button>
+       <div class="lobby-chat-actions">
+  <button class="primary-btn join-lobby" type="button">
+    Join Lobby →
+  </button>
 
-          <button class="primary-btn open-chat" type="button">
-            💬 Chat
-          </button>
-        </div>
-      `;
+  <button class="primary-btn open-chat" type="button">
+    💬 Chat
+  </button>
 
+  <button class="primary-btn leave-lobby" type="button">
+    Leave Lobby
+  </button>
+</div>
   card.querySelector(".open-chat").addEventListener("click", async () => {
   await openLobbyChat(lobby.id);
 
