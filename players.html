@@ -696,9 +696,33 @@ async function loadLobbies() {
         </button>
       `;
 
-      card.querySelector(".join-lobby").addEventListener("click", () => {
-        showToast("Sign in to join this lobby.");
-      });
+   card.querySelector(".join-lobby").addEventListener("click", async () => {
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (!data.session) {
+    showToast("Please sign in before joining a lobby.");
+    return;
+  }
+
+  const button = card.querySelector(".join-lobby");
+  button.disabled = true;
+  button.textContent = "Joining...";
+
+  const { error } = await supabaseClient.rpc("join_lobby", {
+    p_lobby_id: lobby.id
+  });
+
+  if (error) {
+    showToast(error.message);
+    button.disabled = false;
+    button.textContent = "Join Lobby →";
+    return;
+  }
+
+  showToast("Joined lobby successfully!");
+
+  await loadLobbies();
+});
 
       lobbyGrid.appendChild(card);
     });
