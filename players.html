@@ -654,7 +654,146 @@ const regionFilter = document.querySelector("#regionFilter");
 const modeFilter = document.querySelector("#modeFilter");
 const lobbyGrid = document.querySelector("#lobbyGrid");
 const noLobbies = document.querySelector("#noLobbies");
+const lobbyChat = document.querySelector("#lobbyChat");
+const chatMessages = document.querySelector("#chatMessages");
+const chatInput = document.querySelector("#chatInput");
+const sendChatBtn = document.querySelector("#sendChatBtn");
+const closeChatBtn = document.querySelector("#closeChatBtn");
 
+let activeLobbyId = null;
+let chatSubscription = null;
+
+async function openLobbyChat(lobbyId) {
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (!data.session) {
+    showToast("Please sign in to use lobby chat.");
+    return;
+  }
+
+  activeLobbyId = lobbyId;
+  lobbyChat.style.display = "block";
+  chatMessages.innerHTML = "Loading messages...";
+
+  await loadLobbyMessages(lobbyId);
+
+  if (chatSubscription) {
+    await supabaseClient.removeChannel(chatSubscription);
+  }
+
+  chatSubscription = supabaseClient
+    .channel("lobby-chat-" + lobbyId)
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "lobby_messages",
+        filter: "lobby_id=eq." + lobbyId
+      },
+      async () => {
+        await loadLobbyMessages(lobbyId);
+      }
+    )
+    .subscribe();
+}
+
+async function loadLobbyMessages(lobbyId) {
+  const { data, error } = await supabaseClient
+    .from("lobby_messages")
+    .select("*")
+    .eq("lobby_id", lobbyId)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error(error);
+    chatMessages.innerHTML = "Unable to load chat messages.";
+    return;
+  }
+
+  if (!data.length) {
+    chatMessages.innerHTML = "No messages yet. Say hello!";
+    return;
+  }
+
+  chatMessages.innerHTML = "";
+
+  data.forEach(message => {
+    const messageElement = document.createElement("div");
+
+    messageElement.style.marginBottom = "10px";
+    messageElement.innerHTML = `
+      <strong>Player</strong>
+      <span style="opacity:.7; font-size:.85em;">
+        ${new Date(message.created_at).toLocaleTimeString()}
+      </span>
+      <div>${escapeHtml(message.message)}</div>
+    `;
+
+    chatMessages.appendChild(messageElement);
+  });
+
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+async function sendLobbyMessage() {
+  const message = chatInput.value.trim();
+
+  if (!message || !activeLobbyId) {
+    return;
+  }
+
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (!data.session) {
+    showToast("Please sign in to send messages.");
+    return;
+  }
+
+  sendChatBtn.disabled = true;
+
+  const { error } = await supabaseClient
+    .from("lobby_messages")
+    .insert({
+      lobby_id: activeLobbyId,
+      user_id: data.session.user.id,
+      message: message
+    });
+
+  sendChatBtn.disabled = false;
+
+  if (error) {
+    console.error(error);
+    showToast(error.message);
+    return;
+  }
+
+  chatInput.value = "";
+}
+
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+sendChatBtn.addEventListener("click", sendLobbyMessage);
+
+chatInput.addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    sendLobbyMessage();
+  }
+});
+
+closeChatBtn.addEventListener("click", async () => {
+  lobbyChat.style.display = "none";
+  activeLobbyId = null;
+
+  if (chatSubscription) {
+    await supabaseClient.removeChannel(chatSubscription);
+    chatSubscription = null;
+  }
+});
 async function loadLobbies() {
   noLobbies.style.display = "block";
   noLobbies.textContent = "Loading active lobbies...";
