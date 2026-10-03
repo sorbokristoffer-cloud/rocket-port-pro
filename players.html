@@ -880,9 +880,14 @@ async function loadLobbies() {
         </div>
       `;
 
-      card.querySelector(".open-chat").addEventListener("click", () => {
-        showToast("Lobby chat coming next.");
-      });
+  card.querySelector(".open-chat").addEventListener("click", async () => {
+  await openLobbyChat(lobby.id);
+
+  document.querySelector("#lobbyChat").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
 
       card.querySelector(".join-lobby").addEventListener("click", async () => {
         const { data } = await supabaseClient.auth.getSession();
