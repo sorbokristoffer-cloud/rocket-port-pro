@@ -629,6 +629,8 @@ async function loadLobbies() {
   lobbyGrid.innerHTML = "";
 
   try {
+    const { data: sessionData } = await supabaseClient.auth.getSession();
+const accessToken = sessionData.session?.access_token || SUPABASE_KEY;
     const response = await fetch(
       SUPABASE_URL +
       "/rest/v1/lobbies?select=*,lobby_members(count)&status=eq.open&expires_at=gt." +
@@ -637,7 +639,7 @@ async function loadLobbies() {
       {
         headers: {
           apikey: SUPABASE_KEY,
-          Authorization: "Bearer " + SUPABASE_KEY
+          Authorization: "Bearer " + accessToken
         }
       }
     );
@@ -647,9 +649,6 @@ async function loadLobbies() {
     }
 
     const data = await response.json();
-    data.forEach(lobby => {
-  lobby.member_count = lobby.lobby_members?.[0]?.count || 0;
-});
 data.forEach(lobby => {
   lobby.member_count = lobby.lobby_members?.[0]?.count || 0;
 });
