@@ -647,6 +647,9 @@ async function loadLobbies() {
     }
 
     const data = await response.json();
+    data.forEach(lobby => {
+  lobby.member_count = lobby.lobby_members?.[0]?.count || 0;
+});
 data.forEach(lobby => {
   lobby.member_count = lobby.lobby_members?.[0]?.count || 0;
 });
